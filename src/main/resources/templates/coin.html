@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precio Cripto - Tiempo Real</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <!-- DataTables Buttons CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.bootstrap5.min.css">
+    
+    <!-- Font Awesome (solo una vez) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="/../cripto/js/coin.css">
+
+    <!-- Chart.js y dependencias -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-adapter-moment/1.0.1/chartjs-adapter-moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"> <i class="fas fa-chart-line me-2"></i> Precio Cripto - Tiempo Real</a>
+        </div>
+    </nav>
+    <div class="container-fluid py-4">
+        <div class="mb-1">
+            <div class="dashboard-card">
+                <form id="analysisForm" class="row" style="justify-content: space-evenly;">
+                    <div class="col-md-3" style="width: auto;">
+                        <label class="form-label">Criptomoneda:</label>
+                        <select class="form-select" id="cryptoSelect" name="symbol">
+                            <option value="BTCEUR">Bitcoin (BTC/EUR)</option>
+                            <option value="BTCUSDT">Bitcoin (BTC/USDT)</option>
+                            <option value="ETHUSDT">Ethereum (ETH/USDT)</option>
+                            <option value="SOLUSDT">Solana (SOL/USDT)</option>
+                            <option value="ADAUSDT">Cardano (ADA/USDT)</option>
+                            <option value="DOTUSDT">Polkadot (DOT/USDT)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2" style="max-width: 200px;display:none">
+                        <label class="form-label">Proveedor de Datos:</label>
+                        <select class="form-select" id="dataProvider" name="dataProvider" disabled="disabled">
+                            <option value="binance" selected="selected">Binance</option>
+                            <option value="coinapi">CoinAPI</option>
+                            <option value="coingecko">CoinGecko</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="dashboard-card">
+                <ul class="nav nav-tabs" id="mainTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="chart-tab" data-bs-toggle="tab" data-bs-target="#chart-pane" type="button" role="tab" aria-controls="chart-pane" aria-selected="true">
+                            <i class="fas fa-chart-line me-2"></i>Gráfica
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="data-tab" data-bs-toggle="tab" data-bs-target="#data-pane" type="button" role="tab" aria-controls="data-pane" aria-selected="false">
+                            <i class="fas fa-table me-2"></i>Tabla Datos
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="mainTabsContent">
+                    <!-- Pestaña 1: Gráfica -->
+					<div class="tab-pane fade show active" id="chart-pane" role="tabpanel" aria-labelledby="chart-tab" tabindex="0">
+					    <div class="chart-container" style="position: relative;">
+					        <div class="chart-controls-bar">
+					            <div class="btn-group zoom-controls" role="group" aria-label="Controles de Zoom">
+					                <button type="button" id="zoomIn" class="btn btn-zoom" title="Zoom In">
+					                    <i class="fas fa-search-plus"></i>
+					                </button>
+					                <button type="button" id="zoomOut" class="btn btn-zoom" title="Zoom Out">
+					                    <i class="fas fa-search-minus"></i>
+					                </button>
+					                <button type="button" id="resetZoom" class="btn btn-zoom" title="Restablecer Zoom">
+					                    <i class="fas fa-expand-arrows-alt"></i>
+					                </button>
+					            </div>
+					        </div>
+					        <canvas id="priceChart"></canvas>
+					    </div>
+					</div>
+                    <!-- Pestaña 2: Datos de Tabla -->
+                    <div class="tab-pane fade" id="data-pane" role="tabpanel" aria-labelledby="data-tab" tabindex="0">
+                        <div class="table-responsive">
+                            <div class="mb-2" id="tableButtons"></div>
+                            <table id="dataTable" class="table table-striped table-hover" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Apertura</th>
+                                    <th>Fecha Cierre</th>
+                                    <th>Apertura</th>
+                                    <th>Máximo</th>
+                                    <th>Mínimo</th>
+                                    <th>Cierre</th>
+                                    <th>EMA10</th>
+                                    <th>EMA25</th>
+                                    <th>EMA50</th>
+                                    <th>EMA100</th>
+                                    <th>EMA200</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Los datos se cargarán dinámicamente -->
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>         
+	<div class="btn-group timeframe-controls" role="group" aria-label="Selección de Timeframe">
+	    <button type="button" class="btn btn-timeframe active" data-value="1s" title="1 Segundo - Últimos 17 minutos">
+	        <i class="fas fa-stopwatch"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="1m" title="1 Minuto - Últimas 24h">
+	        <i class="fas fa-clock"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="1h" title="1 Hora - Últimos 7 días">
+	        <i class="fas fa-hourglass-half"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="4h" title="4 Horas - Últimos 30 días">
+	        <i class="fas fa-hourglass"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="1d" title="1 Día - Últimos 3 meses">
+	        <i class="fas fa-calendar-day"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="3d" title="3 Días - Últimos 6 meses">
+	        <i class="fas fa-calendar-week"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="1w" title="1 Semana - Último año">
+	        <i class="fas fa-calendar-alt"></i>
+	    </button>
+	    <button type="button" class="btn btn-timeframe" data-value="1M" title="1 Mes - Últimos 2 años">
+	        <i class="fas fa-calendar"></i>
+	    </button>
+	</div>
+	<!-- Campo oculto para mantener el valor seleccionado -->
+	<input type="hidden" id="primaryTimeframe" name="primaryTimeframe" value="1s">
+	<div class="precioActual">
+		<div class="col-md-3" style="max-width: 320px;">
+			<div style="white-space: nowrap;float:left;margin-right:10px;">
+			<h5 class="mb-0" >
+				<i class="fas fa-coins me-2"></i>Auto Refresh:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+			</h5>
+			</div>
+			<div class="form-check form-switch">
+               	<input class="form-check-input" type="checkbox" id="autoRefresh" style="float: right;" checked="checked">
+           	</div>
+			
+			<table><tr><td>
+			<div class="price-display price-positive" id="current-price">Cargando...</div>		
+			</td>
+			<td>
+			<div class="text-muted" id="price-change" style="min-width:200px;margin-left: 30px;"></div>
+			</td>
+			</tr>
+			</table>
+			<div class="text-muted" id="time-change" style="min-width:200px;"></div>
+			
+			<table>
+			<tr>
+			<td><div class="text-muted" id="time-change-2a" style="min-width:0px;"></div></td>
+			</tr>
+			<tr>
+			<td><div class="text-muted" id="time-change-2b" style="min-width:250px;"></div></td>
+			</tr>	
+			<tr>
+			<td>
+			<div class="text-muted" id="price-change-2" style="float: left;"></div>
+			<div class="price-positive" id="current-price-2" style="float: right;margin-right: 33px;"></div>	</td>
+			</tr>
+			<tr>
+			<td></td>
+			</tr>
+			</table>
+			
+			<br>
+		    <div class="d-flex align-items-center gap-2">
+		        <span class="badge bg-info" id="last-update">
+		           <span id="timestamp">--:--:--</span>
+		        </span>
+		        <span class="badge bg-success" id="connection-status">
+		            <i class="fas fa-circle me-1"></i>Conectado
+		        </span>
+		    </div>
+		</div>
+	</div>
+</div>  
+<footer class="bg-dark text-light py-4 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-3">
+                    <i class="fas fa-chart-line me-2"></i>Precio Cripto - Tiempo Real
+                </h5>
+                <p class="mb-0">
+                    Plataforma de análisis en tiempo real para criptomonedas. 
+                    Datos proporcionados por Binance, CoinAPI y CoinGecko.
+                </p>
+            </div>         
+            <div class="col-md-4">
+                <h5 class="mb-3">Conecta con Nosotros</h5>
+                <div class="d-flex gap-3 mb-3">
+                    <a href="#" class="text-light fs-5">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://github.com/portab76/cripto-analysis" class="text-light fs-5">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="text-light fs-5">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                </div>
+                <div class="text-muted small">display
+                    <p class="mb-1"  style="color:white;">
+                        <i class="fas fa-exclamation-triangle me-1"></i>
+                        Las inversiones en criptomonedas conllevan riesgos.
+                    </p>
+                    <p class="mb-0"  style="color:white;">
+                        © 2023 Precio Cripto - Tiempo Real. Todos los derechos reservados.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>   
+    
+
+    <!-- Scripts al final del body para mejor rendimiento -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+    <script src="/../cripto/js/coin.js"></script>
+</body>
+</html>
