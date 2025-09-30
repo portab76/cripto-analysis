@@ -1,11 +1,11 @@
-#cripto-analysis#
+**cripto-analysis**
 
 Aplicación Spring Boot para monitoreo de precios de criptomonedas usando la API de Binance, con funcionalidad para descargar cierres históricos en formato CSV.
 
 La aplicación está desplegada en:
 https://elper.es/cripto/coin
 
-##Descripción general##
+**Descripción general**
 
 Esta aplicación permite:
 
@@ -19,7 +19,7 @@ Monitoreo periódico (scheduler) para ir obteniendo datos automáticamente.
 
 Es ideal para proyectos de análisis de datos de criptomonedas, backtesting, dashboards o visualización de evoluciones de precios.
 
-##Tecnologías usadas
+**Tecnologías usadas**
 
 Java + Spring Boot
 
@@ -34,7 +34,7 @@ Posible scheduler / tareas programadas
 (Dependencias del proyecto definidas en pom.xml)
 
 
-##Uso / Endpoints principales
+**Uso / Endpoints principales**
 
 A continuación, algunos endpoints típicos (basados en lo que se esperaría en esta app). Ajusta las rutas si en tu código son distintas:
 ```
@@ -51,7 +51,7 @@ La interfaz web en https://elper.es/cripto/coin puede ofrecer formularios o cont
 - Ver la curva de precios
 - Pulsar un botón para “Descargar CSV” con los datos de cierre histórico
 
-##Formato del CSV generado
+**Formato del CSV generado**
 
 El archivo CSV típicamente tiene columnas como:
 ```
@@ -69,16 +69,16 @@ volume: volumen transaccionado
 
 El separador puede ser coma (,) o punto y coma (;), dependiendo de la configuración regional.
 
-##Casos de uso
+**Casos de uso**
 
-1. Visualización de precios históricos
+1. **Visualización de precios históricos**
 Navega en la interfaz web, selecciona par e intervalo, y gráfica la evolución.
 
-2. Descarga para análisis externo
+2. **Descarga para análisis externo**
 Usando el botón “Descargar CSV” o mediante endpoint REST, te bajas los datos para analizarlos offline con Python, R, Excel, etc.
 
-3. Automatización / monitoreo
+3. **Automatización / monitoreo**
 Si tienes un scheduler configurado, puedes que la aplicación periódicamente obtenga datos y los almacene o procese alertas.
 
-4. Integración con otras herramientas
+4. **Integración con otras herramientas**
 Puedes consumir sus endpoints desde dashboards (Grafana, Dash, frontends JS) para integrar datos en tiempo real.
