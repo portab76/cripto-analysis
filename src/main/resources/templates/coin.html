@@ -152,14 +152,28 @@
 	<input type="hidden" id="primaryTimeframe" name="primaryTimeframe" value="1s">
 	<div class="precioActual">
 		<div class="col-md-3" style="max-width: 320px;">
+
+
+			<div class="d-flex align-items-center gap-2">
+		        <div class="badge bg-info" id="last-update" style="float:right;">
+		           <span id="timestamp">--:--:--</span>
+		        </div>
+		        <div class="badge bg-success" id="connection-status" style="float:right;">
+		            <i class="fas fa-circle me-1"></i>Conectado
+		        </div>
+		    </div>
+<br>			
 			<div style="white-space: nowrap;float:left;margin-right:10px;">
-			<h5 class="mb-0" >
-				<i class="fas fa-coins me-2"></i>Auto Refresh:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-			</h5>
+				<h5 class="mb-0" >
+					<i class="fas fa-coins me-2"></i>Auto Refresh:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+				</h5>
 			</div>
+			
 			<div class="form-check form-switch">
                	<input class="form-check-input" type="checkbox" id="autoRefresh" style="float: right;" checked="checked">
            	</div>
+			
+			
 			
 			<table><tr><td>
 			<div class="price-display price-positive" id="current-price">Cargando...</div>		
@@ -169,34 +183,57 @@
 			</td>
 			</tr>
 			</table>
-			<div class="text-muted" id="time-change" style="min-width:200px;"></div>
 			
-			<table>
-			<tr>
-			<td><div class="text-muted" id="time-change-2a" style="min-width:0px;"></div></td>
-			</tr>
-			<tr>
-			<td><div class="text-muted" id="time-change-2b" style="min-width:250px;"></div></td>
-			</tr>	
-			<tr>
-			<td>
-			<div class="text-muted" id="price-change-2" style="float: left;"></div>
-			<div class="price-positive" id="current-price-2" style="float: right;margin-right: 33px;"></div>	</td>
-			</tr>
-			<tr>
-			<td></td>
-			</tr>
-			</table>
 			
+			<div class="text-muted" id="time-change-2" style="float: left;"></div>
+			<div class="text-muted" id="price-change-2" style="float: right;"></div>
+			<div class="price-positive" id="current-price-2" style="float: right;margin-right: 33px;"></div>
+			<div class="text-muted" id="time-change-2a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-2b" style="min-width:250px;"></div>			
 			<br>
-		    <div class="d-flex align-items-center gap-2">
-		        <span class="badge bg-info" id="last-update">
-		           <span id="timestamp">--:--:--</span>
-		        </span>
-		        <span class="badge bg-success" id="connection-status">
-		            <i class="fas fa-circle me-1"></i>Conectado
-		        </span>
-		    </div>
+			<div class="text-muted" id="time-change-3" style="float: left;"></div>
+			<div class="text-muted" id="price-change-3" style="float: right;"></div>
+			<div class="price-positive" id="current-price-3" style="float: right;margin-right: 33px;"></div>
+			<div class="text-muted" id="time-change-3a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-3b" style="min-width:250px;"></div>			
+			<br>
+			<div class="text-muted" id="time-change-4" style="float: left;"></div>
+			<div class="text-muted" id="price-change-4" style="float: right;"></div>
+			<div class="price-positive" id="current-price-4" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-4a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-4b" style="min-width:250px;"></div>			
+			<br>						
+			<div class="text-muted" id="time-change-5" style="float: left;"></div>
+			<div class="text-muted" id="price-change-5" style="float: right;"></div>
+			<div class="price-positive" id="current-price-5" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-5a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-5b" style="min-width:250px;"></div>			
+			<br>			
+			<div class="text-muted" id="time-change-6" style="float: left;"></div>
+			<div class="text-muted" id="price-change-6" style="float: right;"></div>
+			<div class="price-positive" id="current-price-6" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-6a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-6b" style="min-width:250px;"></div>			
+			<br>			
+			<div class="text-muted" id="time-change-7" style="float: left;"></div>
+			<div class="text-muted" id="price-change-7" style="float: right;"></div>
+			<div class="price-positive" id="current-price-7" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-7a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-7b" style="min-width:250px;"></div>			
+			<br>			
+			<div class="text-muted" id="time-change-8" style="float: left;"></div>
+			<div class="text-muted" id="price-change-8" style="float: right;"></div>
+			<div class="price-positive" id="current-price-8" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-8a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-8b" style="min-width:250px;"></div>			
+			<br>			
+			<div class="text-muted" id="time-change-9" style="float: left;"></div>
+			<div class="text-muted" id="price-change-9" style="float: right;"></div>
+			<div class="price-positive" id="current-price-9" style="float: right;margin-right: 50px;"></div>
+			<div class="text-muted" id="time-change-9a" style="min-width:0px;"></div>
+			<div class="text-muted" id="time-change-9b" style="min-width:250px;"></div>			
+			<br>			
+
 		</div>
 	</div>
 </div>  
@@ -215,23 +252,17 @@
             <div class="col-md-4">
                 <h5 class="mb-3">Conecta con Nosotros</h5>
                 <div class="d-flex gap-3 mb-3">
-                    <a href="#" class="text-light fs-5">
+                    <a href="https://x.com/elper_es/" class="text-light fs-5">
                         <i class="fab fa-twitter"></i>
                     </a>
                     <a href="https://github.com/portab76/cripto-analysis" class="text-light fs-5">
                         <i class="fab fa-github"></i>
-                    </a>
-                    <a href="#" class="text-light fs-5">
-                        <i class="fab fa-discord"></i>
                     </a>
                 </div>
                 <div class="text-muted small">display
                     <p class="mb-1"  style="color:white;">
                         <i class="fas fa-exclamation-triangle me-1"></i>
                         Las inversiones en criptomonedas conllevan riesgos.
-                    </p>
-                    <p class="mb-0"  style="color:white;">
-                        © 2023 Precio Cripto - Tiempo Real. Todos los derechos reservados.
                     </p>
                 </div>
             </div>

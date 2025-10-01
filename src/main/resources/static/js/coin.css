@@ -284,8 +284,9 @@ body {
 }
 
 .precioActual{
-	width: fit-content;
+	width: auto;
     margin: auto;
+    margin-left:20px;
     justify-items: baseline;
 }
 
