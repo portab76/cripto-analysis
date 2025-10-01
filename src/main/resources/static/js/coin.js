@@ -305,7 +305,7 @@ async function loadInitialData() {
 //
 //
 //Control de último refresco por timeframe
-const lastUpdate = {};
+var lastUpdate = {};
 
 // Actualiza un timeframe concreto
 async function updateTimeframe(symbol, timeframe) {
@@ -806,6 +806,9 @@ window.addEventListener('beforeunload', function() {
 document.getElementById('cryptoSelect').addEventListener('change', () => {
 	//priceChart.options.scales.y.title.text = getCointText();        	
 	updateChartData();   
+	
+	Object.keys(lastUpdate).forEach(key => delete lastUpdate[key]);
+	
 });
 
 // Registrar el plugin de zoom de Chart.js
